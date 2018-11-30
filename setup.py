@@ -29,7 +29,7 @@ setup(
     license="Apache Software License",
     packages=find_packages(),
     use_scm_version={"version_scheme": "post-release"},
-    setup_requires=["setuptools_scm", "pytest-runner"],
+    setup_requires=["setuptools_scm"],
     tests_require=test_requirements,
     install_requires=requirements,
     extras_require={"tests": test_requirements},
