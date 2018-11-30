@@ -7,7 +7,6 @@ from time import sleep
 from uuid import UUID
 
 import click
-
 import sherlockml
 import sml.auth
 from papermill.cli import papermill
@@ -56,7 +55,7 @@ def tmpdir():
     help="Display the version of this library.",
 )
 @click.pass_context
-def faculty_reporter(
+def main(
     click_context,
     notebook,
     report_name,
@@ -124,4 +123,3 @@ def faculty_reporter(
 
 if __name__ == "__main__":
     main()
-

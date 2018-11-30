@@ -26,5 +26,6 @@ setup(
     use_scm_version={"version_scheme": "post-release"},
     setup_requires=["setuptools_scm", "pytest-runner"],
     tests_require=["pytest"],
-    install_requires=["papermill"],
+    install_requires=["click", "papermill", "sherlockml", "sml"],
+    entry_points={"console_scripts": ["faculty-reporter=faculty_reporter:main"]},
 )
