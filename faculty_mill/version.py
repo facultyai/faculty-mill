@@ -10,7 +10,7 @@ except DistributionNotFound:
 version = __version__
 
 
-def print_version(ctx, param, value):
+def print_version(ctx, param, value):  # noqa: D001 D002
     if not value:
         return
 
