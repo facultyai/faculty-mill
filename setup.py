@@ -15,17 +15,25 @@
 
 from setuptools import setup, find_packages
 
+requirements = ["click", "papermill", "sherlockml", "sml"]
+test_requirements = ["pytest"]
 
 setup(
     name="faculty-mill",
-    description="Run and publish parameterised Jupyter notebooks using Faculty Platform.",
+    description=(
+        "Run and publish parameterised Jupyter notebooks "
+        "using Faculty Platform."
+    ),
     author="Faculty",
     author_email="engineering@asidatascience.com",
     license="Apache Software License",
     packages=find_packages(),
     use_scm_version={"version_scheme": "post-release"},
-    setup_requires=["setuptools_scm", "pytest-runner"],
-    tests_require=["pytest"],
-    install_requires=["click", "papermill", "sherlockml", "sml"],
-    entry_points={"console_scripts": ["faculty-reporter=faculty_reporter:main"]},
+    setup_requires=["setuptools_scm"],
+    tests_require=test_requirements,
+    install_requires=requirements,
+    extras_require={"tests": test_requirements},
+    entry_points={
+        "console_scripts": ["faculty-reporter=faculty_reporter:main"]
+    },
 )

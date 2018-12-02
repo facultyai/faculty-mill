@@ -1,8 +1,14 @@
-__version__ = "0.0.1"
-version = __version__
+from pkg_resources import get_distribution, DistributionNotFound
+
+try:
+    __version__ = get_distribution(__package__).version
+    version = __version__
+except DistributionNotFound:
+    # package is not installed
+    pass
 
 
-def print_version(ctx, param, value):
+def print_version(ctx, param, value):  # noqa: D001 D002
     if not value:
         return
 

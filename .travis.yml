@@ -1,0 +1,17 @@
+language: python
+notifications:
+  email: false
+python:
+  - "3.5"
+  - "3.6"
+matrix:
+  include:
+    - python: 3.7
+      dist: xenial
+script:
+  - pip install -qq flake8 coverage coveralls
+  - flake8 faculty_mill
+  - pip install -qq -e '.[tests]'
+  # run the test suite
+  - coverage run --source=faculty_mill -m pytest
+  - coveralls
