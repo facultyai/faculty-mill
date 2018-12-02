@@ -6,6 +6,8 @@ from tempfile import TemporaryDirectory
 from time import sleep
 from uuid import UUID
 
+from publish import publish
+
 import click
 import sherlockml
 import sml.auth
@@ -60,7 +62,7 @@ def main(
     notebook,
     report_name,
     description=None,
-    code=False,
+    show_code=False,
     execute=True,
 ):
     """
@@ -69,10 +71,6 @@ def main(
 
     This command supports all flags and options that papermill supports.
     """
-
-    PROJECT_ID = UUID(os.getenv("SHERLOCKML_PROJECT_ID"))
-    USER_ID = sml.auth.user_id()
-    report_client = sherlockml.client("report")
 
     with tmpdir() as directory:
         directory = Path(directory)
@@ -90,35 +88,11 @@ def main(
                 [str(input_path), str(output_path)] + click_context.args,
                 parent=click_context,
             )
-
             papermill.invoke(papermill_click_context)
         else:
             shutil.copy(input_path, output_path)
 
-        reports = {
-            report.name: report for report in report_client.list(PROJECT_ID)
-        }
-
-        if report_name in reports:
-            report_client.create_version(
-                reports[report_name].id,
-                str(output_path.relative_to("/project/")),
-                USER_ID,
-                show_code=code,
-            )
-            click.echo("Publishing report version...")
-        else:
-            report_client.create(
-                PROJECT_ID,
-                report_name,
-                str(output_path.relative_to("/project/")),
-                USER_ID,
-                show_code=code,
-            )
-            click.echo("Publishing report...")
-
-        sleep(5)
-        click.echo("Done!")
+        publish(report_name, output_path, show_code=show_code)
 
 
 if __name__ == "__main__":
