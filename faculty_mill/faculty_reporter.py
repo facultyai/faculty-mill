@@ -12,6 +12,7 @@ import sml.auth
 from papermill.cli import papermill
 
 from .version import print_version
+from .execute import run
 
 
 @contextmanager
@@ -77,23 +78,7 @@ def main(
     with tmpdir() as directory:
         directory = Path(directory)
 
-        input_path = directory / "input.ipynb"
-        output_path = directory / "output.ipynb"
-
-        # write the input file to the new file
-        with input_path.open("w") as input_file:
-            shutil.copyfileobj(notebook, input_file)
-
-        if execute:
-            papermill_click_context = papermill.make_context(
-                "The papermill execution command.",
-                [str(input_path), str(output_path)] + click_context.args,
-                parent=click_context,
-            )
-
-            papermill.invoke(papermill_click_context)
-        else:
-            shutil.copy(input_path, output_path)
+        output_path = run(notebook, directory, execute, click_context)
 
         reports = {
             report.name: report for report in report_client.list(PROJECT_ID)
