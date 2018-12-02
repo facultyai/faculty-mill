@@ -9,7 +9,7 @@ from faculty_mill.execute import run
 @pytest.fixture
 def tempdir(tmpdir):
     """Fixture that wraps pytest fixture to return Path object"""
-    return Path(tmpdir)
+    return Path(str(tmpdir))
 
 
 @pytest.fixture
