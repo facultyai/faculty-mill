@@ -1,16 +1,11 @@
-import os
 import shutil
 from contextlib import contextmanager
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from time import sleep
-from uuid import UUID
 
 from publish import publish
 
 import click
-import sherlockml
-import sml.auth
 from papermill.cli import papermill
 
 from .version import print_version
