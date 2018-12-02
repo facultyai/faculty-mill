@@ -1,5 +1,4 @@
 import os
-import shutil
 from contextlib import contextmanager
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -9,7 +8,6 @@ from uuid import UUID
 import click
 import sherlockml
 import sml.auth
-from papermill.cli import papermill
 
 from .version import print_version
 from .execute import run
