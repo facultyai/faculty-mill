@@ -26,6 +26,6 @@ def run(
 
         papermill.invoke(papermill_click_context)
     else:
-        shutil.copy(input_path, output_path)
+        shutil.copy(str(input_path), str(output_path))
 
     return output_path

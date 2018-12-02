@@ -28,7 +28,6 @@ def mock_click_context():
 
 
 def test_that_run_copies_content(tempdir, tmpnotebook, mock_click_context):
-    # tmpdir = Path(tmpdir)
     output_notebook = run(
         tmpnotebook, tempdir, execute=False, click_context=mock_click_context
     )
@@ -37,7 +36,6 @@ def test_that_run_copies_content(tempdir, tmpnotebook, mock_click_context):
 
 
 def test_that_run_calls_papermill(tempdir, tmpnotebook, mock_click_context):
-    # NB: tmpdir is a pytest fixture
     with patch("faculty_mill.execute.papermill") as mock_papermill:
         output_notebook = run(
             tmpnotebook,
@@ -52,4 +50,6 @@ def test_that_run_calls_papermill(tempdir, tmpnotebook, mock_click_context):
             + mock_click_context.args,
             parent=mock_click_context,
         )
-        mock_papermill.invoke.assert_called_once()
+        mock_papermill.invoke.assert_called_once_with(
+            mock_papermill.make_context.return_value
+        )
