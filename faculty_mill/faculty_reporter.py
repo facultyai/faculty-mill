@@ -77,7 +77,6 @@ def main(
     report_client = sherlockml.client("report")
 
     with tmpdir() as directory:
-        directory = directory
         input_path = directory / "input.ipynb"
         output_path = directory / "output.ipynb"
 
