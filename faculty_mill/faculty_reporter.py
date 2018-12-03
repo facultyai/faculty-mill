@@ -15,13 +15,13 @@ from .version import print_version
 
 
 @contextmanager
-def tmpdir():
+def tmpdir() -> Path:
     if Path("/project").is_dir():
         with TemporaryDirectory(prefix=".", dir="/project") as tmpdir:
-            yield tmpdir
+            yield Path(tmpdir)
     else:
         with TemporaryDirectory(prefix=".") as tmpdir:
-            yield tmpdir
+            yield Path(tmpdir)
 
 
 @click.command(
@@ -67,6 +67,8 @@ def main(
     Publish a report from NOTEBOOK under the name REPORT_NAME in the
     current project.
 
+    Pass '-' as NOTEBOOK in order to parse file content from stdin.
+
     This command supports all flags and options that papermill supports.
     """
 
@@ -75,12 +77,11 @@ def main(
     report_client = sherlockml.client("report")
 
     with tmpdir() as directory:
-        directory = Path(directory)
-
         input_path = directory / "input.ipynb"
         output_path = directory / "output.ipynb"
 
-        # write the input file to the new file
+        # write the input file to the new, temporary input file
+        # this is to allow processing of stdin
         with input_path.open("w") as input_file:
             shutil.copyfileobj(notebook, input_file)
 
