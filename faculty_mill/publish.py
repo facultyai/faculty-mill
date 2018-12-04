@@ -6,7 +6,6 @@ from uuid import UUID
 
 import click
 import sherlockml
-import sml.auth
 
 
 def publish(
@@ -41,7 +40,7 @@ def publish(
         project_id = UUID(os.getenv("SHERLOCKML_PROJECT_ID"))
 
     if user_id is None:
-        user_id = sml.auth.user_id()
+        user_id = sherlockml.client("account").authenticated_user_id()
 
     report_client = sherlockml.client("report")
 
