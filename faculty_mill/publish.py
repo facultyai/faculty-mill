@@ -1,8 +1,9 @@
 import os
 from pathlib import Path
+from time import sleep
 from typing import Optional
 from uuid import UUID
-from time import sleep
+
 import click
 import sherlockml
 import sml.auth

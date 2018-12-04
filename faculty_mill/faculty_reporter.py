@@ -3,10 +3,9 @@ from contextlib import contextmanager
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from publish import publish
-
 import click
 from papermill.cli import papermill
+from publish import publish
 
 from .version import print_version
 

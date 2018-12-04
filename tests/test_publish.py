@@ -1,7 +1,6 @@
 from pathlib import Path
-from uuid import uuid4
-
 from unittest.mock import Mock, patch
+from uuid import uuid4
 
 from faculty_mill import publish
 
