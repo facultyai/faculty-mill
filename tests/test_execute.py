@@ -35,21 +35,20 @@ def test_that_run_copies_content(tempdir, tmpnotebook, mock_click_context):
     assert output_notebook.read_text() == "test notebook content"
 
 
-def test_that_run_calls_papermill(tempdir, tmpnotebook, mock_click_context):
-    with patch("faculty_mill.execute.papermill") as mock_papermill:
-        output_notebook = run(
-            tmpnotebook,
-            tempdir,
-            execute=True,
-            click_context=mock_click_context,
-        )
-        assert output_notebook.parent == tempdir
-        mock_papermill.make_context.assert_called_once_with(
-            "The papermill execution command.",
-            [str(tempdir / "input.ipynb"), str(tempdir / "output.ipynb")]
-            + mock_click_context.args,
-            parent=mock_click_context,
-        )
-        mock_papermill.invoke.assert_called_once_with(
-            mock_papermill.make_context.return_value
-        )
+@patch("faculty_mill.execute.papermill")
+def test_that_run_calls_papermill(
+    mock_papermill, tempdir, tmpnotebook, mock_click_context
+):
+    output_notebook = run(
+        tmpnotebook, tempdir, execute=True, click_context=mock_click_context
+    )
+    assert output_notebook.parent == tempdir
+    mock_papermill.make_context.assert_called_once_with(
+        "The papermill execution command.",
+        [str(tempdir / "input.ipynb"), str(tempdir / "output.ipynb")]
+        + mock_click_context.args,
+        parent=mock_click_context,
+    )
+    mock_papermill.invoke.assert_called_once_with(
+        mock_papermill.make_context.return_value
+    )
