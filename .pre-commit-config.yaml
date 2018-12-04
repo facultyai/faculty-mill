@@ -2,7 +2,7 @@ repos:
 -   repo: https://github.com/pre-commit/mirrors-isort
     rev: HEAD  # Use the revision sha / tag you want to point at
     hooks:
-    -   id: isort
+    - id: isort
 -   repo: https://github.com/ambv/black
     rev: stable
     hooks:
