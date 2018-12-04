@@ -23,18 +23,21 @@ def test_that_get_report_by_name_calls_the_right_endpoint():
         assert result == mock_report.id
 
 
-def test_that_publish_calls_client_method_correctly_with_all_ids_set():
+@patch("sherlockml.client")
+def test_that_publish_calls_client_method_correctly_with_all_ids_set(
+    mock_client_factory
+):
 
     mock_client = Mock()
-    with patch("sherlockml.client", return_value=mock_client):
-        test_report_id = uuid4()
-        test_project_id = uuid4()
-        test_user_id = uuid4()
-        publish.publish(
-            report_name="report name",
-            path=Path("/project/test.ipynb"),
-            show_code=False,
-            report_id=test_report_id,
-            project_id=test_project_id,
-            user_id=test_user_id,
-        )
+    mock_client_factory.return_value = mock_client
+    test_report_id = uuid4()
+    test_project_id = uuid4()
+    test_user_id = uuid4()
+    publish.publish(
+        report_name="report name",
+        path=Path("/project/test.ipynb"),
+        show_code=False,
+        report_id=test_report_id,
+        project_id=test_project_id,
+        user_id=test_user_id,
+    )
