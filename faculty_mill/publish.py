@@ -1,6 +1,6 @@
 import os
+import time
 from pathlib import Path
-from time import sleep
 from typing import Optional
 from uuid import UUID
 
@@ -66,7 +66,7 @@ def publish(
         )
         click.echo("Publishing report...")
     # this is to allow farah to process the notebook before deleting it
-    sleep(5)
+    time.sleep(5)
     click.echo("Done!")
 
 
