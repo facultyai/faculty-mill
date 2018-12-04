@@ -4,8 +4,6 @@ from tempfile import TemporaryDirectory
 
 import click
 
-from papermill.cli import papermill
-
 from .publish import publish
 from .version import print_version
 from .execute import run
