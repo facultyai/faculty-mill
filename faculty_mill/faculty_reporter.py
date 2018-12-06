@@ -1,13 +1,12 @@
-import shutil
 from contextlib import contextmanager
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import click
-from papermill.cli import papermill
-from publish import publish
 
+from .publish import publish
 from .version import print_version
+from .execute import run
 
 
 @contextmanager
@@ -69,23 +68,8 @@ def main(
     """
 
     with tmpdir() as directory:
-        input_path = directory / "input.ipynb"
-        output_path = directory / "output.ipynb"
 
-        # write the input file to the new, temporary input file
-        # this is to allow processing of stdin
-        with input_path.open("w") as input_file:
-            shutil.copyfileobj(notebook, input_file)
-
-        if execute:
-            papermill_click_context = papermill.make_context(
-                "The papermill execution command.",
-                [str(input_path), str(output_path)] + click_context.args,
-                parent=click_context,
-            )
-            papermill.invoke(papermill_click_context)
-        else:
-            shutil.copy(input_path, output_path)
+        output_path = run(notebook, directory, execute, click_context)
 
         publish(report_name, output_path, show_code=show_code)
 
