@@ -24,8 +24,8 @@ setup(
         "Run and publish parameterised Jupyter notebooks "
         "using Faculty Platform."
     ),
-    author="Faculty",
-    author_email="engineering@asidatascience.com",
+    author="ASI Data Science",
+    author_email="opensource@asidatascience.com",
     license="Apache Software License",
     packages=find_packages(),
     use_scm_version={"version_scheme": "post-release"},
