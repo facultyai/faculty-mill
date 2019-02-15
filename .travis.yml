@@ -1,17 +1,21 @@
 language: python
-notifications:
-  email: false
-python:
-  - "3.5"
-  - "3.6"
+cache: pip
+dist: xenial
+
 matrix:
   include:
+    - name: Lint
+      python: 3.7
+      env: TOXENV=black,flake8
+    - python: 3.5
+      env: TOXENV=py35
+    - python: 3.6
+      env: TOXENV=py36
     - python: 3.7
-      dist: xenial
+      env: TOXENV=py37
+
+install:
+  - pip install tox
+
 script:
-  - pip install -qq flake8 coverage coveralls
-  - flake8 faculty_mill
-  - pip install -qq -e '.[tests]'
-  # run the test suite
-  - coverage run --source=faculty_mill -m pytest
-  - coveralls
+  - tox

@@ -15,9 +15,6 @@
 
 from setuptools import find_packages, setup
 
-requirements = ["click", "papermill", "faculty", "sml"]
-test_requirements = ["pytest"]
-
 setup(
     name="faculty-mill",
     description=(
@@ -30,9 +27,7 @@ setup(
     packages=find_packages(),
     use_scm_version={"version_scheme": "post-release"},
     setup_requires=["setuptools_scm"],
-    tests_require=test_requirements,
-    install_requires=requirements,
-    extras_require={"tests": test_requirements},
+    install_requires=["click", "papermill", "faculty", "sml"],
     entry_points={
         "console_scripts": ["faculty-reporter=faculty_reporter:main"]
     },
