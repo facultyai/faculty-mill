@@ -5,7 +5,7 @@ from typing import Optional
 from uuid import UUID
 
 import click
-import sherlockml
+import faculty
 
 
 def publish(
@@ -40,9 +40,9 @@ def publish(
         project_id = UUID(os.getenv("SHERLOCKML_PROJECT_ID"))
 
     if user_id is None:
-        user_id = sherlockml.client("account").authenticated_user_id()
+        user_id = faculty.client("account").authenticated_user_id()
 
-    report_client = sherlockml.client("report")
+    report_client = faculty.client("report")
 
     if report_id is None:
         report_id = get_report_id_by_name(report_name, project_id)
@@ -87,7 +87,7 @@ def get_report_id_by_name(
         The report ID if a report with that name exists, else None
     """
 
-    report_client = sherlockml.client("report")
+    report_client = faculty.client("report")
     reports = {
         report.name: report.id for report in report_client.list(project_id)
     }

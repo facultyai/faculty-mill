@@ -14,7 +14,7 @@ def test_that_get_report_by_name_calls_the_right_endpoint():
     mock_client.list.return_value = [mock_report]
 
     with patch(
-        "sherlockml.client", return_value=mock_client
+        "faculty.client", return_value=mock_client
     ) as mock_client_creator:
 
         result = publish.get_report_id_by_name("test name", "project id")
@@ -23,7 +23,7 @@ def test_that_get_report_by_name_calls_the_right_endpoint():
         assert result == mock_report.id
 
 
-@patch("sherlockml.client")
+@patch("faculty.client")
 def test_that_publish_calls_client_method_correctly_with_all_ids_set(
     mock_client_factory
 ):
