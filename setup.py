@@ -15,7 +15,7 @@
 
 from setuptools import find_packages, setup
 
-requirements = ["click", "papermill", "sherlockml", "sml"]
+requirements = ["click", "papermill", "faculty", "sml"]
 test_requirements = ["pytest"]
 
 setup(
