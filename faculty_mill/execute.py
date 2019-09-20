@@ -6,7 +6,7 @@ import click
 from papermill.cli import papermill
 
 
-def run(
+def run_notebook(
     notebook: TextIOWrapper,
     directory: Path,
     execute: bool,

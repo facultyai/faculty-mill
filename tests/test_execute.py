@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 import pytest
 
-from faculty_mill.execute import run
+from faculty_mill.execute import run_notebook
 
 
 @pytest.fixture
@@ -27,8 +27,10 @@ def mock_click_context():
     return click_context
 
 
-def test_that_run_copies_content(tempdir, tmpnotebook, mock_click_context):
-    output_notebook = run(
+def test_that_run_notebook_copies_content(
+    tempdir, tmpnotebook, mock_click_context
+):
+    output_notebook = run_notebook(
         tmpnotebook, tempdir, execute=False, click_context=mock_click_context
     )
     assert output_notebook.parent == tempdir
@@ -36,10 +38,10 @@ def test_that_run_copies_content(tempdir, tmpnotebook, mock_click_context):
 
 
 @patch("faculty_mill.execute.papermill")
-def test_that_run_calls_papermill(
+def test_that_run_notebook_calls_papermill(
     mock_papermill, tempdir, tmpnotebook, mock_click_context
 ):
-    output_notebook = run(
+    output_notebook = run_notebook(
         tmpnotebook, tempdir, execute=True, click_context=mock_click_context
     )
     assert output_notebook.parent == tempdir

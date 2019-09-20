@@ -27,8 +27,6 @@ setup(
     packages=find_packages(),
     use_scm_version={"version_scheme": "post-release"},
     setup_requires=["setuptools_scm"],
-    install_requires=["click", "papermill", "faculty", "sml"],
-    entry_points={
-        "console_scripts": ["faculty-reporter=faculty_reporter:main"]
-    },
+    install_requires=["click", "papermill", "faculty"],
+    entry_points={"console_scripts": ["faculty-mill=faculty_mill.cli:cli"]},
 )

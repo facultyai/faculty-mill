@@ -5,8 +5,8 @@ from tempfile import TemporaryDirectory
 import click
 
 from .publish import publish
-from .version import print_version
-from .execute import run
+from .version import version
+from .execute import run_notebook
 
 
 @contextmanager
@@ -19,7 +19,18 @@ def tmpdir() -> Path:
             yield Path(tmpdir)
 
 
-@click.command(
+@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
+def cli():
+    pass
+
+
+@cli.command(name="version")
+def echo_version():
+    "Print the faculty-mill version number."
+    click.echo(version)
+
+
+@cli.command(
     context_settings=dict(
         help_option_names=["-h", "--help"],
         ignore_unknown_options=True,
@@ -41,16 +52,8 @@ def tmpdir() -> Path:
     default=True,
     help="Whether the notebook should be executed before publishing or not.",
 )
-@click.option(
-    "--version",
-    is_flag=True,
-    callback=print_version,
-    expose_value=False,
-    is_eager=True,
-    help="Display the version of this library.",
-)
 @click.pass_context
-def main(
+def run(
     click_context,
     notebook,
     report_name,
@@ -58,21 +61,22 @@ def main(
     show_code=False,
     execute=True,
 ):
-    """
-    Publish a report from NOTEBOOK under the name REPORT_NAME in the
-    current project.
+    """Run a notebook and publish it as a report.
 
-    Pass '-' as NOTEBOOK in order to parse file content from stdin.
-
-    This command supports all flags and options that papermill supports.
+    All additional flags and options to the ones specified below will be passed
+    onto papermill
     """
 
     with tmpdir() as directory:
 
-        output_path = run(notebook, directory, execute, click_context)
+        output_path = run_notebook(notebook, directory, execute, click_context)
 
         publish(report_name, output_path, show_code=show_code)
 
 
-if __name__ == "__main__":
-    main()
+@cli.command()
+def create_job():
+    """
+    Create a Faculty Platform job that will run a notebook.
+    """
+    raise NotImplementedError

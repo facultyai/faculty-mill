@@ -6,11 +6,3 @@ try:
 except DistributionNotFound:
     # package is not installed
     pass
-
-
-def print_version(ctx, param, value):  # noqa: D001 D002
-    if not value:
-        return
-
-    print(version)
-    ctx.exit()
