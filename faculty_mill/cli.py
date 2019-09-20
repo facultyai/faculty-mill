@@ -26,6 +26,7 @@ def cli():
 
 @cli.command(name="version")
 def echo_version():
+    "Print the faculty-mill version number."
     click.echo(version)
 
 
@@ -60,13 +61,10 @@ def run(
     show_code=False,
     execute=True,
 ):
-    """
-    Publish a report from NOTEBOOK under the name REPORT_NAME in the
-    current project.
+    """Run a notebook and publish it as a report.
 
-    Pass '-' as NOTEBOOK in order to parse file content from stdin.
-
-    This command supports all flags and options that papermill supports.
+    All additional flags and options to the ones specified below will be passed
+    onto papermill
     """
 
     with tmpdir() as directory:
@@ -78,4 +76,7 @@ def run(
 
 @cli.command()
 def create_job():
+    """
+    Create a Faculty Platform job that will run a notebook.
+    """
     raise NotImplementedError
