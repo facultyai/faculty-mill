@@ -38,7 +38,11 @@ def echo_version():
     )
 )
 @click.argument("notebook", type=click.File())
-@click.argument("report_name")
+@click.option(
+    "--report-name",
+    default=None,
+    help="Report name to publish the notebook to.",
+)
 @click.option(
     "--description", default=None, help="The description of the report."
 )
@@ -50,28 +54,36 @@ def echo_version():
 @click.option(
     "--execute/--as-is",
     default=True,
-    help="Whether the notebook should be executed before publishing or not.",
+    help="Whether the notebook should be executed.",
 )
 @click.pass_context
 def run(
     click_context,
     notebook,
-    report_name,
+    report_name=None,
     description=None,
     show_code=False,
     execute=True,
 ):
     """Run a notebook and publish it as a report.
 
+    At least one of execute and report name options must be selected.
+
     All additional flags and options to the ones specified below will be passed
-    onto papermill
+    onto papermill.
     """
+
+    if report_name is None and execute is False:
+        raise ValueError(
+            "At least one of execute and publish options must be selected."
+        )
 
     with tmpdir() as directory:
 
         output_path = run_notebook(notebook, directory, execute, click_context)
 
-        publish(report_name, output_path, show_code=show_code)
+        if report_name is not None:
+            publish(report_name, output_path, show_code=show_code)
 
 
 @cli.command()
