@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import click
 
 from .publish import publish
-from .version import print_version
+from .version import version
 from .execute import run_notebook
 
 
@@ -19,9 +19,14 @@ def tmpdir() -> Path:
             yield Path(tmpdir)
 
 
-@click.group()
+@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
 def cli():
     pass
+
+
+@cli.command(name="version")
+def echo_version():
+    click.echo(version)
 
 
 @cli.command(
@@ -45,14 +50,6 @@ def cli():
     "--execute/--as-is",
     default=True,
     help="Whether the notebook should be executed before publishing or not.",
-)
-@click.option(
-    "--version",
-    is_flag=True,
-    callback=print_version,
-    expose_value=False,
-    is_eager=True,
-    help="Display the version of this library.",
 )
 @click.pass_context
 def run(
