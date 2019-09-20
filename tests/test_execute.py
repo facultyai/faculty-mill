@@ -1,6 +1,7 @@
 from io import StringIO
 from pathlib import Path
 from unittest.mock import Mock, patch
+
 import pytest
 
 from faculty_mill.execute import run_notebook

@@ -1,6 +1,6 @@
 import shutil
-from pathlib import Path
 from io import TextIOWrapper
+from pathlib import Path
 
 import click
 from papermill.cli import papermill

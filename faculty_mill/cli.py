@@ -4,9 +4,9 @@ from tempfile import TemporaryDirectory
 
 import click
 
+from .execute import run_notebook
 from .publish import publish
 from .version import version
-from .execute import run_notebook
 
 
 @contextmanager
