@@ -6,7 +6,7 @@ import click
 
 from .publish import publish
 from .version import print_version
-from .execute import run
+from .execute import run_notebook
 
 
 @contextmanager
@@ -19,7 +19,12 @@ def tmpdir() -> Path:
             yield Path(tmpdir)
 
 
-@click.command(
+@click.group()
+def cli():
+    pass
+
+
+@cli.command(
     context_settings=dict(
         help_option_names=["-h", "--help"],
         ignore_unknown_options=True,
@@ -50,7 +55,7 @@ def tmpdir() -> Path:
     help="Display the version of this library.",
 )
 @click.pass_context
-def main(
+def run(
     click_context,
     notebook,
     report_name,
@@ -69,10 +74,11 @@ def main(
 
     with tmpdir() as directory:
 
-        output_path = run(notebook, directory, execute, click_context)
+        output_path = run_notebook(notebook, directory, execute, click_context)
 
         publish(report_name, output_path, show_code=show_code)
 
 
-if __name__ == "__main__":
-    main()
+@cli.command()
+def create_job():
+    raise NotImplementedError
